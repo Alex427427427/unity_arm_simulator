@@ -13,6 +13,7 @@ public class main : MonoBehaviour
     public bool manual_joint_space_control;
     public bool recorder_active; // mode for producing fake ros data
     public bool ros_control;
+    private int ros_frequency = 5; // rough estimate of ros publishing frequency
 
     // dh frames
     public int number_of_frames = 7;
@@ -27,46 +28,59 @@ public class main : MonoBehaviour
     // ros data
     public int record_duration = 20; // how many seconds does the recorder run
     private int record_frequency = 5; // want to simulate 5 hz ros messages
+
     private string recording_file_path = "Assets/Resources/recorder_data.txt";
     private string ros_file_path = "Assets/Resources/ros_data.txt";
     private static StreamWriter sr;
     private string output = "";
-    private float ros_to_unity_scale = (float)0.01; // ros messages are in mm; unity is currently on dm.
+    private float ros_to_unity_scale = 0.01f; // ros messages are in mm; unity is currently on dm.
 
+    void Awake()
+    {
+        construct_DH_frame_array();
+    }
 
     void Start()
     {
-        construct_DH_frame_array();
-
         // assign initial angles
         for (int i = 0; i < number_of_frames; i++)
         {
             DH_frames[i].joint_angle = initial_angles[i];
         }
 
-        // if recording, create text file
-        if (recorder_active)
+        // set frame rates
+        QualitySettings.vSyncCount = 0;  // VSync must be disabled
+        if (manual_joint_space_control) 
         {
-            sr = File.CreateText(recording_file_path);
+            //Application.targetFrameRate = 50;
+            Application.targetFrameRate = ros_frequency;
+            if (recorder_active)
+            {
+                sr = File.CreateText(recording_file_path);
+            }
+        }
+        else if (ros_control)
+        {
+            Application.targetFrameRate = ros_frequency;
         }
     }
 
-    void FixedUpdate()
+    void Update()
     {
         frame++;
 
-        // during manual joint space control, for every 10 frames... (roughly 0.2 seconds)
-        if (manual_joint_space_control && frame % 10 == 0)
+        // during manual joint space control
+        if (manual_joint_space_control)
         {
             update_joint_angles_with_keyboard();
 
             // recording mode is a subset of manual mode
             if (recorder_active)
             {
-                write_config_into_text();
+                append_pose_to_output();
 
                 // if not at the end of the recording, separate each state with "\n".
-                if (frame < 10 * record_duration * record_frequency - 1)
+                if (frame < record_duration * record_frequency)
                 {
                     output += "\n";
                 }
@@ -77,8 +91,8 @@ public class main : MonoBehaviour
                 }
             }
         }
-        // during ros mode, for every 10 frames... (roughly 0.2 seconds)
-        else if (ros_control && frame % 10 == 0)
+        // during ros mode
+        else if (ros_control)
         {
             set_config_with_ros_messages();
         }        
@@ -186,8 +200,9 @@ public class main : MonoBehaviour
         }
     }
 
-    // records all transformation matrices (in the current state, a snapshot) into a text file.
-    void write_config_into_text()
+    // appends all transformation matrices (in the current state, a snapshot) into main.output.
+    // only needed when recording mode is active.
+    void append_pose_to_output()
     {
         // for each dh frame...
         for (int n = 0; n < number_of_frames; n++)

@@ -30,7 +30,7 @@ public class DH_frame : MonoBehaviour
     //NOTE: ALL standard right handed matrices M will need to be adjusted for left handed system by calling 
     // rotation_wrapper(M) before applying transformation! Do no more, no less!
     //We will store the right handed forms due to ROS data (and the entire rest of the world) being right handed.
-    public Matrix4x4 T_local; // currently not being used; a new T_local has to be obtained via T_local_calc() anyway. 
+    public Matrix4x4 T_local; // currently not being used; a new T_local has to be obtained via get_T_local() anyway. 
     public Matrix4x4 T_global;
     public Matrix4x4 LH_adjusted_T_global;
     private Vector3 global_pos;
@@ -55,7 +55,7 @@ public class DH_frame : MonoBehaviour
             if (manual_joint_space_control)
             {
                 // update global transform
-                T_global = parent.get_T_global() * T_local_calc();
+                T_global = parent.get_T_global() * get_T_local();
                 
                 // assign T_global to transform
                 assign_transform();
@@ -74,13 +74,13 @@ public class DH_frame : MonoBehaviour
         } 
         else 
         {
-            return parent.get_T_global() * T_local_calc();
+            return parent.get_T_global() * get_T_local();
         }
     }
 
     // calculate T_local, in right handed axes system, due to the FK and IK maths being worked out in right handed system.
     // derived from forward kinematics, in DH frame convention
-    Matrix4x4 T_local_calc()
+    Matrix4x4 get_T_local()
     {
         Matrix4x4 M = new Matrix4x4();
         M.SetColumn(0, new Vector4(cosd(joint_angle),  sind(joint_angle)*cosd(link_twist), sind(joint_angle)*sind(link_twist), 0)); 
