@@ -11,10 +11,11 @@ public class main : MonoBehaviour
 {
     // mode of operation
     public bool manual_joint_space_control;
+    public bool play_mode; // subset if manual joint space control; must have manual joint space control active
     public bool recorder_active; // mode for producing fake ros data
     public bool ros_control;
     private int ros_frequency = 5; // rough estimate of ros publishing frequency
-
+    
     // dh frames
     public int number_of_frames = 7;
     public DH_frame base_frame;
@@ -52,8 +53,16 @@ public class main : MonoBehaviour
         QualitySettings.vSyncCount = 0;  // VSync must be disabled
         if (manual_joint_space_control) 
         {
-            //Application.targetFrameRate = 50;
-            Application.targetFrameRate = ros_frequency;
+            if (play_mode)
+            {
+                Application.targetFrameRate = 50; // play mode uses higher speed
+            }
+            else
+            {
+                Application.targetFrameRate = ros_frequency; // normal manual control uses 5 hz to simulate ros message frequency
+            }
+            
+            // if recording, create file.
             if (recorder_active)
             {
                 sr = File.CreateText(recording_file_path);
@@ -61,7 +70,7 @@ public class main : MonoBehaviour
         }
         else if (ros_control)
         {
-            Application.targetFrameRate = ros_frequency;
+            Application.targetFrameRate = ros_frequency; // ros mode simulates 5hz frequency
         }
     }
 
