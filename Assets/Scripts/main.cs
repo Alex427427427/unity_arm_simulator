@@ -165,27 +165,27 @@ public class main : MonoBehaviour
             DH_frames[2].joint_angle -= 1;
             print("D pressed!");
         }
-        if (Input.GetKey("w")) 
+        if (Input.GetKey("s")) 
         {
             DH_frames[3].joint_angle += 1;
-            print("W pressed!");
+            print("S pressed!");
         }
-        else if (Input.GetKey("s")) 
+        else if (Input.GetKey("w")) 
         {
             DH_frames[3].joint_angle -= 1;
-            print("S pressed!");
+            print("W pressed!");
         }
 
         //upper 3 joints, controlled by IJKLUO. IK: J4; JL: J5; OU: J6
-        if (Input.GetKey("i")) 
+        if (Input.GetKey("k")) 
         {
             DH_frames[4].joint_angle += 1;
-            print("I pressed!");
+            print("K pressed!");
         }
-        else if (Input.GetKey("k")) 
+        else if (Input.GetKey("i")) 
         {
             DH_frames[4].joint_angle -= 1;
-            print("K pressed!");
+            print("I pressed!");
         }
         if (Input.GetKey("j")) 
         {
