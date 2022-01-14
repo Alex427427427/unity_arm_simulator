@@ -10,10 +10,13 @@ using System.IO;
 public class main : MonoBehaviour
 {
     // mode of operation
-    public bool manual_joint_space_control;
-    public bool play_mode; // subset if manual joint space control; must have manual joint space control active
-    public bool recorder_active; // mode for producing fake ros data
-    public bool ros_control;
+    public enum OperationModes {
+        manual_joint_space_control,
+        play_mode,
+        recording,
+        control_via_ros
+    };
+    public OperationModes operation_mode = OperationModes.manual_joint_space_control;
     private int ros_frequency = 5; // rough estimate of ros publishing frequency
     
     // dh frames
@@ -51,43 +54,43 @@ public class main : MonoBehaviour
 
         // set frame rates
         QualitySettings.vSyncCount = 0;  // VSync must be disabled
-        if (manual_joint_space_control) 
+        switch (operation_mode)
         {
-            if (play_mode)
-            {
-                Application.targetFrameRate = 50; // play mode uses higher speed
-            }
-            else
-            {
+            case OperationModes.manual_joint_space_control:
                 Application.targetFrameRate = ros_frequency; // normal manual control uses 5 hz to simulate ros message frequency
-            }
-            
-            // if recording, create file.
-            if (recorder_active)
-            {
-                sr = File.CreateText(recording_file_path);
-            }
-        }
-        else if (ros_control)
-        {
-            Application.targetFrameRate = ros_frequency; // ros mode simulates 5hz frequency
+                break;
+            case OperationModes.play_mode:
+                Application.targetFrameRate = 50; // play mode uses higher speed
+                break;
+            case OperationModes.recording:
+                Application.targetFrameRate = ros_frequency; // normal manual control uses 5 hz to simulate ros message frequency
+                sr = File.CreateText(recording_file_path); // create file for recording
+                break;
+            case OperationModes.control_via_ros:
+                Application.targetFrameRate = ros_frequency; // ros mode simulates 5hz frequency
+                break;
+            default:
+                Application.targetFrameRate = ros_frequency; // normal manual control uses 5 hz to simulate ros message frequency
+                break;
         }
     }
 
     void Update()
     {
-        frame++;
-
-        // during manual joint space control
-        if (manual_joint_space_control)
+        frame++;    
+        switch (operation_mode)
         {
-            update_joint_angles_with_keyboard();
+            case OperationModes.manual_joint_space_control:
+                update_joint_angles_with_keyboard();
+                break;
 
-            // recording mode is a subset of manual mode
-            if (recorder_active)
-            {
+            case OperationModes.play_mode:
+                update_joint_angles_with_keyboard();
+                break;
+
+            case OperationModes.recording:
+                update_joint_angles_with_keyboard();
                 append_pose_to_output();
-
                 // if not at the end of the recording, separate each state with "\n".
                 if (frame < record_duration * record_frequency)
                 {
@@ -98,13 +101,15 @@ public class main : MonoBehaviour
                     sr.WriteLine(output);
                     sr.Close();
                 }
-            }
-        }
-        // during ros mode
-        else if (ros_control)
-        {
-            set_config_with_ros_messages();
-        }        
+                break;
+
+            case OperationModes.control_via_ros:
+                set_config_with_ros_messages();
+                break;
+
+            default:
+                break;
+        }   
     }
 
 
@@ -125,16 +130,7 @@ public class main : MonoBehaviour
 
             // set modes
             DH_frames[i].is_base_frame = false;
-            if (manual_joint_space_control) 
-            {
-                DH_frames[i].manual_joint_space_control = true;
-                DH_frames[i].ros_control = false;
-            }
-            else if (ros_control)
-            {
-                DH_frames[i].manual_joint_space_control = false;
-                DH_frames[i].ros_control = true;
-            }
+            DH_frames[i].operation_mode = operation_mode;
         }
 
         // set mode of base frame

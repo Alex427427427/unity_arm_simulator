@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Math = System.Math;
+using OperationModes = main.OperationModes;
 
 public class DH_frame : MonoBehaviour
 {
     // selecting the mode alters beaviour of dh frames.
-    public bool manual_joint_space_control;
-    public bool ros_control;
+    public OperationModes operation_mode = OperationModes.manual_joint_space_control;
 
     // whether it's base frame
     public bool is_base_frame;
@@ -51,8 +51,8 @@ public class DH_frame : MonoBehaviour
         // only need to do anything if it's not the base frame
         if (!is_base_frame)
         {
-            // only need to calculate if in manual mode
-            if (manual_joint_space_control)
+            // only need to calculate if in manual mode, play mode, or recording mode.
+            if (operation_mode == OperationModes.manual_joint_space_control || operation_mode == OperationModes.play_mode || operation_mode == OperationModes.recording)
             {
                 // update global transform
                 T_global = parent.get_T_global() * get_T_local();
