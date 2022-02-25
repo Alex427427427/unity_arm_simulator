@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44659358, g: 0.49642974, b: 0.57482505, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -239,8 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9ecd5ffbf14f5b2b7f083b353fa6e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manual_joint_space_control: 0
-  ros_control: 0
+  operation_mode: 0
   is_base_frame: 0
   parent: {fileID: 2116703268}
   link_length: 0
@@ -490,8 +489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9ecd5ffbf14f5b2b7f083b353fa6e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manual_joint_space_control: 0
-  ros_control: 0
+  operation_mode: 0
   is_base_frame: 0
   parent: {fileID: 1157641947}
   link_length: 0
@@ -669,10 +667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2626bec07ad87f91c82d87dab1c51c4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manual_joint_space_control: 1
-  play_mode: 1
-  recorder_active: 0
-  ros_control: 0
+  operation_mode: 1
   number_of_frames: 7
   base_frame: {fileID: 1107040939}
   end_effector_frame: {fileID: 2112573989}
@@ -976,8 +971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9ecd5ffbf14f5b2b7f083b353fa6e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manual_joint_space_control: 0
-  ros_control: 0
+  operation_mode: 0
   is_base_frame: 1
   parent: {fileID: 0}
   link_length: 0
@@ -1228,8 +1222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9ecd5ffbf14f5b2b7f083b353fa6e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manual_joint_space_control: 0
-  ros_control: 0
+  operation_mode: 0
   is_base_frame: 0
   parent: {fileID: 1571073502}
   link_length: 4.99
@@ -1465,8 +1458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9ecd5ffbf14f5b2b7f083b353fa6e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manual_joint_space_control: 0
-  ros_control: 0
+  operation_mode: 0
   is_base_frame: 0
   parent: {fileID: 303443397}
   link_length: 4.85
@@ -2094,8 +2086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9ecd5ffbf14f5b2b7f083b353fa6e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manual_joint_space_control: 0
-  ros_control: 0
+  operation_mode: 0
   is_base_frame: 0
   parent: {fileID: 447237156}
   link_length: 0
@@ -2264,8 +2255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9ecd5ffbf14f5b2b7f083b353fa6e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manual_joint_space_control: 0
-  ros_control: 0
+  operation_mode: 0
   is_base_frame: 0
   parent: {fileID: 1107040939}
   link_length: 0
