@@ -33,8 +33,8 @@ public class main : MonoBehaviour
     public int record_duration = 20; // how many seconds does the recorder run
     private int record_frequency = 5; // want to simulate 5 hz ros messages
 
-    private string recording_file_path = "Assets/Resources/recorder_data.txt";
-    private string ros_file_path = "Assets/Resources/ros_data.txt";
+    private string recording_file_path = "recorder_data.txt";
+    private string ros_file_path = "ros_data.txt";
     private static StreamWriter sr;
     private string output = "";
     private float ros_to_unity_scale = 0.01f; // ros messages are in mm; unity is currently on dm.
