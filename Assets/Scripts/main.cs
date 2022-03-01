@@ -34,11 +34,11 @@ public class main : MonoBehaviour
     private int record_frequency = 5; // want to simulate 5 hz ros messages
 
     private string recording_file_path = "recorder_data.txt";
-    private string ros_file_path = "ros_data.txt";
-    //private string ros_file_path = "arm_poses_data.txt";
+    //private string ros_file_path = "ros_data.txt";
+    private string ros_file_path = "arm_poses_data.txt";
     private static StreamWriter sr;
     private string output = "";
-    private float ros_to_unity_scale = 0.01f; // ros messages are in mm; unity is currently on dm.
+    private float ros_to_unity_scale = 10; // ros messages are in m; unity is currently on dm.
 
     void Awake()
     {
