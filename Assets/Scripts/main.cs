@@ -35,6 +35,7 @@ public class main : MonoBehaviour
 
     private string recording_file_path = "recorder_data.txt";
     private string ros_file_path = "ros_data.txt";
+    //private string ros_file_path = "arm_poses_data.txt";
     private static StreamWriter sr;
     private string output = "";
     private float ros_to_unity_scale = 0.01f; // ros messages are in mm; unity is currently on dm.
