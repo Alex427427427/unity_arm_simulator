@@ -787,8 +787,9 @@ MonoBehaviour:
   - {fileID: 1637946692}
   - {fileID: 2008944750}
   - {fileID: 267367566}
-  delay_time: 2
+  delay_time: 6
   flash_time: 0.2
+  stop_time: 6
 --- !u!114 &486718212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -801,11 +802,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c28055a1b2953a338f1cb5e17462f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam1: {fileID: 444700360}
-  cam2: {fileID: 2058306525}
-  cam3: {fileID: 1664478817}
-  cam4: {fileID: 1146609055}
-  main_cam: {fileID: 963194225}
+  cam1: {fileID: 0}
+  cam2: {fileID: 0}
+  cam3: {fileID: 0}
+  cam4: {fileID: 0}
+  main_cam: {fileID: 0}
 --- !u!1 &531562459
 GameObject:
   m_ObjectHideFlags: 0
@@ -1131,7 +1132,7 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
